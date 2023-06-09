@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class TokoController extends Controller
 {
@@ -19,5 +21,51 @@ class TokoController extends Controller
     public function about()
     {
         return view('toko/about');
+    }
+
+    public function admin()
+    {
+        $products = Product::all();
+        return view('toko/admin', compact('products'));
+    }
+
+    public function create()
+    {
+        return view('toko/create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required'
+        ]);
+
+        Product::create($request->all());
+        return redirect()->route('produk.admin')->with('success', 'Product created successfully');
+    }
+
+    public function customers()
+    {
+        $customers = Customer::all();
+        return view('toko/customers', compact('customers'));
+    }
+
+    public function AddCustomer()
+    {
+        return view('toko/addcustomer');
+    }
+
+    public function NewCustomer(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'no_hp' => 'required'
+        ]);
+
+        Customer::create($request->all());
+        return redirect()->route('produk.customers')->with('success', 'Product created successfully');
     }
 }
