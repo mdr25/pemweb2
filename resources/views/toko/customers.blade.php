@@ -1,7 +1,7 @@
 @extends('template.admin')
 
 @section('content')
-    <h1>Products</h1>
+    <h1>Customers</h1>
     <a href="{{ route('produk.AddCustomer') }}" class="btn btn-primary mb-3">Add Customer</a>
     <table class="table">
         <thead>

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InputController;
 use App\Http\Controllers\TokoController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,12 +33,22 @@ Route::prefix('toko')->group(function () {
     Route::get('/about', [TokoController::class, 'about']);
 
 
-    Route::get('/admin', [TokoController::class, 'admin'])->name('produk.admin');
-    Route::get('create', [TokoController::class, 'create'])->name('produk.create');
-    Route::post('store', [TokoController::class, 'store'])->name('produk.store');
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/admin', [TokoController::class, 'admin'])->name('produk.admin');
+        Route::get('create', [TokoController::class, 'create'])->name('produk.create');
+        Route::post('store', [TokoController::class, 'store'])->name('produk.store');
 
+        Route::get('/customers', [TokoController::class, 'customers'])->name('produk.customers');
+        Route::get('AddCustomer', [TokoController::class, 'AddCustomer'])->name('produk.AddCustomer');
+        Route::post('NewCustomer', [TokoController::class, 'NewCustomer'])->name('produk.NewCustomer');
 
-    Route::get('/customers', [TokoController::class, 'customers'])->name('produk.customers');
-    Route::get('AddCustomer', [TokoController::class, 'AddCustomer'])->name('produk.AddCustomer');
-    Route::post('NewCustomer', [TokoController::class, 'NewCustomer'])->name('produk.NewCustomer');
+        Route::get('/{product}/edit', [TokoController::class, 'edit'])->name('produk.edit');
+        Route::put('/{product}', [TokoController::class, 'update'])->name('produk.update');
+
+        Route::delete('/{product}', [TokoController::class, 'destroy'])->name('produk.destroy');
+    });
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

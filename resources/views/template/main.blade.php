@@ -37,10 +37,22 @@
                         </ul>
                     </li> -->
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
+                <ul class="navbar-nav mb-2 mb-lg-0" style="color: white;">
+                    @if (auth()->check() && auth()->user()->role == 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-danger" href="">Admin</a>
+                        </li>
+                    @else
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                        <li class="nav-item">
+                            <a class="nav-link  btn btn-primary ms-2" href="">Pelanggan</a>
+                        </li>
+                    @endif
+                </ul>
+
             </div>
         </div>
     </nav>
